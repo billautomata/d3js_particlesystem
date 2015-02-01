@@ -10,7 +10,7 @@
 var w = window.innerWidth
 var h = window.innerHeight
 
-var n_elements = 128
+var n_elements = 256
 
 var svg = d3.select('body').append('svg')
 
@@ -38,8 +38,9 @@ for(var i = 0; i < n_elements; i++){
 
   var circle = svg.append('circle').attr('cx', particle.x).attr('cy', particle.y).attr('r', Math.random()*3+1)
   circle.style('fill-opacity', 0.8)
-  circle.style('fill', 'cyan')
-  circle.style('stroke', 'none')
+  circle.style('fill', 'black')
+  circle.style('stroke',d3.rgb(Math.random()*255, Math.random()*255, Math.random()*255))
+
 
   // data binding like a pro
   // duck-typing
@@ -96,17 +97,17 @@ function tick(){
     svg_element.attr('cx', particle.x)
     svg_element.attr('cy', particle.y)
 
-    if(false){
+    if(true){
       var distance = Math.sqrt(Math.pow(particle.x-mouse.x,2)+Math.pow(particle.y-mouse.y,2))
 
       if(distance<100){
         if(!svg_element.in_range){
 //          svg_element.transition().attr('r', Math.random()*50+10).ease('bounce').duration(1000)
           svg_element.transition()
-            .duration(500)
+            .duration(1000)
             .ease('bounce')
-            .style('fill', d3.rgb(Math.random()*255, Math.random()*255, Math.random()*255))
-            .attr('r', 50)
+            .style('stroke', d3.rgb(Math.random()*255, Math.random()*255, Math.random()*255))
+            .attr('r', 100)
         }
         svg_element.in_range = true
       } else {
@@ -115,7 +116,7 @@ function tick(){
           svg_element.transition()
             .ease('bounce')
             .delay(500)
-            .duration(1000)
+            .duration(Math.random()*3000+1000)
             .attr('r', Math.random()*3+1)
 
         }
