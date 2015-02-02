@@ -58,7 +58,7 @@ for(var i = 0; i < n_elements; i++){
   circle.style('fill-opacity', 0.3)
     .style('stroke-opacity', 0.5)
     .style('fill', color)
-    .style('stroke', 'white')
+    .style('stroke', color)
 
   // data binding like a pro
   // duck-typing
