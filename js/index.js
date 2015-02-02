@@ -10,7 +10,7 @@
 var w = window.innerWidth
 var h = window.innerHeight
 
-var n_elements = 256
+var n_elements = 128
 
 var svg = d3.select('body').append('svg')
 
@@ -37,7 +37,7 @@ for(var i = 0; i < n_elements; i++){
   var particle = particles[i]
 
   var circle = svg.append('circle').attr('cx', particle.x).attr('cy', particle.y).attr('r', Math.random()*3+1)
-  circle.style('fill-opacity', 0.8)
+  circle.style('fill-opacity', 0.2)
   circle.style('fill', 'black')
   circle.style('stroke',d3.rgb(Math.random()*255, Math.random()*255, Math.random()*255))
 
@@ -66,15 +66,14 @@ function tick(){
     var particle = svg_element.particle
 
 
+    var noise_multi = 0.2
 
-    var noise_multi = 0.1
-
-    var time = Date.now() * 0.0001
+    var time = Date.now() * 0.00001
 
     particle.vx += noise_multi * simplexNoise(particle.x/w,particle.y/h,time)
     particle.vy += noise_multi * simplexNoise((h-particle.y)/h,(w-particle.x)/w,time)
 
-    var dampening = 0.991
+    var dampening = 0.99
     particle.vx *= dampening
     particle.vy *= dampening
 
@@ -102,12 +101,15 @@ function tick(){
 
       if(distance<100){
         if(!svg_element.in_range){
-//          svg_element.transition().attr('r', Math.random()*50+10).ease('bounce').duration(1000)
+
+          var new_color = d3.rgb(Math.random()*255, Math.random()*255, Math.random()*255)
+
           svg_element.transition()
             .duration(1000)
-            .ease('bounce')
-            .style('stroke', d3.rgb(Math.random()*255, Math.random()*255, Math.random()*255))
-            .attr('r', 100)
+            .ease('elastic',1.2)
+            .style('stroke', new_color)
+            .style('fill', new_color)
+            .attr('r', Math.random()*100+20)
         }
         svg_element.in_range = true
       } else {
