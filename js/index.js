@@ -16,6 +16,10 @@ var n_elements = 256
 
 var svg = d3.select('body').append('svg')
 
+
+var radius_max = w*0.02
+var scale_damping = d3.scale.linear().domain([1,radius_max+1]).range([0.99,0.975])
+
 svg.attr('width', w)
    .attr('height', h)
    .style('background-color', 'black')
@@ -32,7 +36,7 @@ for (var i = 0; i < n_elements; i++){
     pos: new toxi.geom.Vec2D(random()*w, random()*h),
     //vel: new toxi.geom.Vec2D(random(),random()),
     vel: new toxi.geom.Vec2D(0,0),
-    r: (Math.random() * (w*0.02)) + 1,
+    r: 1,
     is_transitioned: false
   })
 
@@ -49,9 +53,12 @@ for(var i = 0; i < n_elements; i++){
     .attr('cy', particle.y)
     .attr('r', particle.r)
 
-  circle.style('fill-opacity', 0.5)
-    .style('fill', d3.rgb(Math.random()*255, Math.random()*255, Math.random()*255))
-    .style('stroke', 'none')
+  var color = d3.rgb(Math.random()*255, Math.random()*255, Math.random()*255)
+
+  circle.style('fill-opacity', 0.3)
+    .style('stroke-opacity', 0.5)
+    .style('fill', color)
+    .style('stroke', 'white')
 
   // data binding like a pro
   // duck-typing
@@ -102,7 +109,9 @@ function tick(){
     particle.vel.x += noise_multi * simplexNoise(particle.pos.x/w,particle.pos.y/h,time)
     particle.vel.y += noise_multi * simplexNoise((h-particle.pos.y)/h,(w-particle.pos.x)/w,time)
 
-    dampening = 0.991 - (particle.r * particle.r * 0.00001)
+    //dampening = 0.991 - (particle.r * particle.r * 0.00001)
+
+    dampening = scale_damping(particle.r)
 
     particle.vel.x *= dampening
     particle.vel.y *= dampening
@@ -132,12 +141,20 @@ function tick(){
 
     force_vec.normalizeTo(distance_to_center*0.0001)
 
-
     particle.vel.x -= force_vec.x
     particle.vel.y -= force_vec.y
 
 
   }
+
+  var circle_idx = Math.floor(Math.random()*circles.length)
+  var new_r = (Math.random()*radius_max) + 1
+  circles[circle_idx].particle.r = new_r
+  circles[circle_idx].transition()
+    .duration(3000)
+    .ease('elastic',2)
+    .attr('r',new_r)
+
 
   //console.profileEnd()
   // debugger;
