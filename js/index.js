@@ -109,7 +109,7 @@ function tick(){
             .ease('elastic',1.2)
             .style('stroke', new_color)
             .style('fill', new_color)
-            .attr('r', Math.random()*100+20)
+            .attr('r', Math.random()*30+4)
         }
         svg_element.in_range = true
       } else {
