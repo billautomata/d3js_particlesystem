@@ -66,7 +66,7 @@ function tick(){
     var particle = svg_element.particle
 
 
-    var noise_multi = 0.3
+    var noise_multi = 0.1
 
     var time = Date.now() * 0.0001
 
