@@ -66,14 +66,14 @@ function tick(){
     var particle = svg_element.particle
 
 
-    var noise_multi = 0.2
+    var noise_multi = 0.3
 
-    var time = Date.now() * 0.00001
+    var time = Date.now() * 0.0001
 
     particle.vx += noise_multi * simplexNoise(particle.x/w,particle.y/h,time)
     particle.vy += noise_multi * simplexNoise((h-particle.y)/h,(w-particle.x)/w,time)
 
-    var dampening = 0.99
+    var dampening = 0.991
     particle.vx *= dampening
     particle.vy *= dampening
 
