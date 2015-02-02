@@ -152,7 +152,7 @@ function tick(){
   circles[circle_idx].particle.r = new_r
   circles[circle_idx].transition()
     .duration(3000)
-    .ease('elastic',2)
+    .ease('bounce',2)
     .attr('r',new_r)
 
 
